@@ -1,0 +1,2 @@
+# StudyAI
+Diagram learning MVP
