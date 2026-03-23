@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import dragonAnxious from '../assets/images/dragon-anxious.png'
 import dragonRelaxed from '../assets/images/dragon-relaxed.png'
+const BACKEND_URL = 'http://localhost:5063'
 // Final boss battle screen — student writes a full synthesis answer
 export default function BossBattle({ data, anxiety, anxietyPercent, onRelief, onBack }) {
   const [answer, setAnswer] = useState('')
@@ -8,8 +9,38 @@ export default function BossBattle({ data, anxiety, anxietyPercent, onRelief, on
   const [evaluating, setEvaluating] = useState(false)
 
   const handleSubmit = async () => {
-    if (!answer.trim()) return
-    setEvaluating(true)
+  if (!answer.trim()) return
+  setEvaluating(true)
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/evaluate-final`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: data.topic,
+        requiredConcepts: data.boss.required_concepts,
+        studentAnswer: answer
+      })
+    })
+
+    if (!response.ok) throw new Error('Evaluation failed')
+
+    const result = await response.json()
+    onRelief(result.damage)
+    setResult(result)
+
+  } catch (err) {
+    setResult({
+      defeated: false,
+      score: 0,
+      feedback: 'Connection error — is the backend running?',
+      missingConcepts: [],
+      damage: 0
+    })
+  } finally {
+    setEvaluating(false)
+  }
+
 
     // Mock final evaluation — replace with /api/evaluate-final later
     await new Promise(resolve => setTimeout(resolve, 1200))

@@ -1,6 +1,3 @@
-// Entry point for StudyAI backend
-// Minimal API — keeps everything simple for MVP
-
 using StudyAI.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +10,6 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 
-// Required to handle multipart/form-data file uploads
 builder.Services.AddAntiforgery();
 
 var app = builder.Build();
@@ -22,7 +18,7 @@ app.UseCors("AllowFrontend");
 
 app.MapGet("/", () => "StudyAI API is running");
 
-// Register all endpoints
 app.MapAnalyzeEndpoint();
+app.MapEvaluateEndpoints(); // Add this line
 
 app.Run();
