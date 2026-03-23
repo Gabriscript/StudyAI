@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* StudyAI custom CSS variables */
+:root {
+  --dragon-anxious: url('/src/assets/images/dragon-anxious.png');
+  --dragon-relaxed: url('/src/assets/images/dragon-relaxed.png');
+  --dragon-celebratory: url('/src/assets/images/dragon-celebratory.png');
+}

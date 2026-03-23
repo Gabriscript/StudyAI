@@ -416,3 +416,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+StudyAI.Api.csproj
+appsettings.Development.json
